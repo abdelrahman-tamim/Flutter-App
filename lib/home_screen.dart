@@ -43,8 +43,8 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Container(height: 100, width: 100, color: Colors.amberAccent),
-                Container(height: 100, width: 100, color: Colors.red),
+                Container(height: 100, width: 92, color: Colors.amberAccent),
+                Container(height: 100, width: 92, color: Colors.red),
               ],
             ),
           ),
