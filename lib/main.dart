@@ -4,7 +4,6 @@ import 'package:flutter_application_1/home_screen.dart';
 void main() {
   runApp(const MyApp());
 }
-
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
