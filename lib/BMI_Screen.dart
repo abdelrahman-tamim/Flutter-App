@@ -191,6 +191,7 @@ class _BmiScreenState extends State<BmiScreen> {
                               children: [
                                 FloatingActionButton(
                                   backgroundColor: Colors.white,
+                                  heroTag: "wight++",
                                   onPressed: () {
                                     setState(() {
                                       wight++;
@@ -200,6 +201,7 @@ class _BmiScreenState extends State<BmiScreen> {
                                 ),
                                 FloatingActionButton(
                                   backgroundColor: Colors.white,
+                                  heroTag: "wight--",
                                   onPressed: () {
                                     setState(() {
                                       wight--;
@@ -240,6 +242,7 @@ class _BmiScreenState extends State<BmiScreen> {
                               children: [
                                 FloatingActionButton(
                                   backgroundColor: Colors.white,
+                                  heroTag: "age++",
                                   onPressed: () {
                                     setState(() {
                                       age++;
@@ -249,6 +252,7 @@ class _BmiScreenState extends State<BmiScreen> {
                                 ),
                                 FloatingActionButton(
                                   backgroundColor: Colors.white,
+                                  heroTag: "age--",
                                   onPressed: () {
                                     setState(() {
                                       age--;

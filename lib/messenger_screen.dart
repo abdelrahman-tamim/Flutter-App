@@ -1,4 +1,8 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/Api_Provider.dart';
+import 'package:flutter_application_1/Product_model.dart';
 import 'package:flutter_application_1/chat_item.dart';
 import 'package:flutter_application_1/story_item.dart';
 
@@ -9,9 +13,14 @@ class Users {
   Users({this.name, this.message, this.time});
 }
 
-class MessengerScreen extends StatelessWidget {
+class MessengerScreen extends StatefulWidget {
   MessengerScreen({super.key});
 
+  @override
+  State<MessengerScreen> createState() => _MessengerScreenState();
+}
+
+class _MessengerScreenState extends State<MessengerScreen> {
   List<Users> users = [
     Users(
       name: "Abdelrahman Tamim",
@@ -73,6 +82,22 @@ class MessengerScreen extends StatelessWidget {
       time: "1:10 PM",
     ),
   ];
+  ProductModel? productmodel;
+  bool isLoading = true;
+
+  callGetProducts() async {
+    productmodel = await ApiProvider().getProducts();
+    print(productmodel?.products[0].images[0]);
+    setState(() {
+      isLoading = false;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    callGetProducts();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -129,27 +154,35 @@ class MessengerScreen extends StatelessWidget {
             SizedBox(height: 10),
             SizedBox(
               height: 80,
-              child: ListView.separated(
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (context, index) {
-                  return StoryItem(user: users[index]);
-                },
-                separatorBuilder: (context, index) {
-                  return SizedBox(width: 10);
-                },
-                itemCount: 10,
-              ),
+              child:
+                  isLoading
+                      ? CircularProgressIndicator()
+                      : ListView.separated(
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (context, index) {
+                          return StoryItem(user: users[index]);
+                        },
+                        separatorBuilder: (context, index) {
+                          return SizedBox(width: 10);
+                        },
+                        itemCount: 10,
+                      ),
             ),
             Expanded(
-              child: ListView.separated(
-                itemBuilder: (context, index) {
-                  return ChatItem(user: users[index]);
-                },
-                separatorBuilder: (context, index) {
-                  return SizedBox(height: 10);
-                },
-                itemCount: users.length,
-              ),
+              child:
+                  isLoading
+                      ? CircularProgressIndicator()
+                      : ListView.separated(
+                        itemBuilder: (context, index) {
+                          return ChatItem(
+                            product: productmodel!.products[index],
+                          );
+                        },
+                        separatorBuilder: (context, index) {
+                          return SizedBox(height: 10);
+                        },
+                        itemCount: users.length,
+                      ),
             ),
           ],
         ),
