@@ -48,7 +48,7 @@ class _BmiScreenState extends State<BmiScreen> {
                         child: Container(
                           padding: EdgeInsets.symmetric(
                             vertical: 25,
-                            horizontal: 40,
+                            horizontal: 35,
                           ),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(25),
@@ -58,12 +58,12 @@ class _BmiScreenState extends State<BmiScreen> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              Icon(Icons.male, color: Colors.white, size: 100),
+                              Icon(Icons.male, color: Colors.white, size: 80),
                               Text(
                                 "Male",
                                 style: TextStyle(
                                   color: Colors.white,
-                                  fontSize: 40,
+                                  fontSize: 30,
                                 ),
                               ),
                             ],
@@ -86,16 +86,12 @@ class _BmiScreenState extends State<BmiScreen> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              Icon(
-                                Icons.female,
-                                color: Colors.white,
-                                size: 100,
-                              ),
+                              Icon(Icons.female, color: Colors.white, size: 80),
                               Text(
                                 "Female",
                                 style: TextStyle(
                                   color: Colors.white,
-                                  fontSize: 40,
+                                  fontSize: 30,
                                 ),
                               ),
                             ],
@@ -117,7 +113,7 @@ class _BmiScreenState extends State<BmiScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Container(
-                        width: 400,
+                        width: 300,
                         child: Column(
                           spacing: 4,
                           children: [
@@ -268,42 +264,45 @@ class _BmiScreenState extends State<BmiScreen> {
                     ],
                   ),
                 ),
+                SizedBox(height: 20),
               ],
             ),
           ),
           Expanded(
             child: Container(
-              width: double.infinity,
-              decoration: BoxDecoration(color: Color(0xffE83D67)),
-
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder:
-                              (context) => BmiResult(
-                                age: age,
-                                wight: wight,
-                                hight: hight,
-                                gender: gender,
-                                result: result,
-                              ),
-                        ),
-                      );
-                      setState(() {
-                        result = wight / pow(hight / 100, 2);
-                      });
-                    },
-                    child: Text(
-                      "Calculate",
-                      style: TextStyle(color: Colors.white, fontSize: 25),
+              color: Color(0xff1C2135),
+              child: Container(
+                width: double.infinity,
+                decoration: BoxDecoration(color: Color(0xffE83D67)),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder:
+                                (context) => BmiResult(
+                                  age: age,
+                                  wight: wight,
+                                  hight: hight,
+                                  gender: gender,
+                                  result: result,
+                                ),
+                          ),
+                        );
+                        setState(() {
+                          result = wight / pow(hight / 100, 2);
+                        });
+                      },
+                      child: Text(
+                        "Calculate",
+                        style: TextStyle(color: Colors.white, fontSize: 25),
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
