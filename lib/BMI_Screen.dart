@@ -161,7 +161,7 @@ class _BmiScreenState extends State<BmiScreen> {
                 Container(
                   width: double.infinity,
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Container(
                         padding: EdgeInsets.all(25),
@@ -279,26 +279,30 @@ class _BmiScreenState extends State<BmiScreen> {
                   children: [
                     GestureDetector(
                       onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder:
-                                (context) => BmiResult(
-                                  age: age,
-                                  wight: wight,
-                                  hight: hight,
-                                  gender: gender,
-                                  result: result,
-                                ),
-                          ),
-                        );
                         setState(() {
                           result = wight / pow(hight / 100, 2);
                         });
+                        Future.delayed(Duration.zero, () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder:
+                                  (context) => BmiResult(
+                                    age: age,
+                                    wight: wight,
+                                    hight: hight,
+                                    gender: gender,
+                                    result: result,
+                                  ),
+                            ),
+                          );
+                        });
                       },
-                      child: Text(
-                        "Calculate",
-                        style: TextStyle(color: Colors.white, fontSize: 25),
+                      child: Container(
+                        child: Text(
+                          "Calculate",
+                          style: TextStyle(color: Colors.white, fontSize: 25),
+                        ),
                       ),
                     ),
                   ],
