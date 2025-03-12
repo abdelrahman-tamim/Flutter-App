@@ -57,6 +57,7 @@ class StoryItem extends StatelessWidget {
               "${user.name}",
               style: TextStyle(fontSize: 12),
               overflow: TextOverflow.ellipsis,
+              textAlign: TextAlign.center,
             ),
           ),
         ],

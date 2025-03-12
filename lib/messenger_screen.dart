@@ -51,6 +51,27 @@ class MessengerScreen extends StatelessWidget {
       message: "Call me when you're free.",
       time: "1:10 PM",
     ),
+    Users(
+      name: "Aisha Noor",
+      message: "Let's go out for lunch.",
+      time: "2:20 PM",
+    ),
+    Users(
+      name: "Kareem Adel",
+      message: "Can you send me the document?",
+      time: "6:00 PM",
+    ),
+    Users(name: "Nour Samir", message: "Where are you?", time: "5:30 PM"),
+    Users(
+      name: "Youssef Amr",
+      message: "I'll be there in 5 minutes.",
+      time: "4:45 PM",
+    ),
+    Users(
+      name: "Fatima Zahra",
+      message: "Call me when you're free.",
+      time: "1:10 PM",
+    ),
   ];
 
   @override
