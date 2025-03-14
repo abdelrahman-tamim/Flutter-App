@@ -6,8 +6,8 @@ import 'package:flutter_application_1/login_screen.dart';
 import 'package:flutter_application_1/messenger_screen.dart';
 
 Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+ /*  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(); */
   runApp(const MyApp());
 }
 
@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
         // tested with just a hot reload.
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: LoginScreen(),
+      home: MessengerScreen(),
     );
   }
 }

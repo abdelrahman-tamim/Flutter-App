@@ -2,9 +2,11 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/Api_Provider.dart';
+import 'package:flutter_application_1/Cubit/cubit/products_cubit.dart';
 import 'package:flutter_application_1/Product_model.dart';
 import 'package:flutter_application_1/chat_item.dart';
 import 'package:flutter_application_1/story_item.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class Users {
   String? name;
@@ -82,10 +84,11 @@ class _MessengerScreenState extends State<MessengerScreen> {
       time: "1:10 PM",
     ),
   ];
-  ProductModel? productmodel;
-  bool isLoading = true;
 
-  callGetProducts() async {
+  ProductModel? productmodel;
+  /*   bool isLoading = true; */
+
+  /* callGetProducts() async {
     productmodel = await ApiProvider().getProducts();
     print(productmodel?.products[0].images[0]);
     setState(() {
@@ -97,95 +100,118 @@ class _MessengerScreenState extends State<MessengerScreen> {
   void initState() {
     super.initState();
     callGetProducts();
-  }
+  } */
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        title: Text(
-          "Chats",
-          style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-        ),
-        leading: Padding(
-          padding: const EdgeInsets.only(top: 5, bottom: 5, left: 5, right: 0),
-          child: CircleAvatar(
-            child: Icon(Icons.person_2),
-            backgroundColor: Colors.grey.shade200,
-          ),
-        ),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.all(5.0),
-            child: Row(
-              spacing: 5,
-              children: [
-                CircleAvatar(
-                  child: Icon(Icons.camera_alt),
+    return BlocProvider(
+      create: (context) => ProductsCubit(),
+      child: BlocConsumer<ProductsCubit, ProductsState>(
+        listener: (context, state) {
+          // TODO: implement listener
+          if (state is ProductsError) {
+            ScaffoldMessenger.of(
+              context,
+            ).showSnackBar(SnackBar(content: Text(state.Error)));
+          }
+          if (state is ProductsSucsses) {
+            productmodel = state.productModel;
+          }
+        },
+        builder: (context, state) {
+          return Scaffold(
+            appBar: AppBar(
+              backgroundColor: Colors.white,
+              title: Text(
+                "Chats",
+                style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+              ),
+              leading: Padding(
+                padding: const EdgeInsets.only(
+                  top: 5,
+                  bottom: 5,
+                  left: 5,
+                  right: 0,
+                ),
+                child: CircleAvatar(
+                  child: Icon(Icons.person_2),
                   backgroundColor: Colors.grey.shade200,
                 ),
-                CircleAvatar(
-                  child: Icon(Icons.edit_sharp, color: Colors.black),
-                  backgroundColor: Colors.grey.shade200,
+              ),
+              actions: [
+                Padding(
+                  padding: const EdgeInsets.all(5.0),
+                  child: Row(
+                    spacing: 5,
+                    children: [
+                      CircleAvatar(
+                        child: Icon(Icons.camera_alt),
+                        backgroundColor: Colors.grey.shade200,
+                      ),
+                      CircleAvatar(
+                        child: Icon(Icons.edit_sharp, color: Colors.black),
+                        backgroundColor: Colors.grey.shade200,
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
-          ),
-        ],
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          children: [
-            TextFormField(
-              decoration: InputDecoration(
-                hintText: "Search",
-                fillColor: Colors.grey.shade200,
-                filled: true,
-                prefixIcon: Icon(Icons.search),
+            body: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Column(
+                children: [
+                  TextFormField(
+                    decoration: InputDecoration(
+                      hintText: "Search",
+                      fillColor: Colors.grey.shade200,
+                      filled: true,
+                      prefixIcon: Icon(Icons.search),
 
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20),
-                  borderSide: BorderSide.none,
-                ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                        borderSide: BorderSide.none,
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  SizedBox(
+                    height: 80,
+                    child:
+                        state is ProductsLoading
+                            ? CircularProgressIndicator()
+                            : ListView.separated(
+                              scrollDirection: Axis.horizontal,
+                              itemBuilder: (context, index) {
+                                return StoryItem(user: users[index]);
+                              },
+                              separatorBuilder: (context, index) {
+                                return SizedBox(width: 10);
+                              },
+                              itemCount: 10,
+                            ),
+                  ),
+                  Expanded(
+                    child:
+                        state is ProductsLoading
+                            ? CircularProgressIndicator()
+                            : ListView.separated(
+                              itemBuilder: (context, index) {
+                                return ChatItem(
+                                  product: productmodel!.products[index],
+                                );
+                              },
+                              separatorBuilder: (context, index) {
+                                return SizedBox(height: 10);
+                              },
+                              itemCount: users.length,
+                            ),
+                  ),
+                ],
               ),
             ),
-            SizedBox(height: 10),
-            SizedBox(
-              height: 80,
-              child:
-                  isLoading
-                      ? CircularProgressIndicator()
-                      : ListView.separated(
-                        scrollDirection: Axis.horizontal,
-                        itemBuilder: (context, index) {
-                          return StoryItem(user: users[index]);
-                        },
-                        separatorBuilder: (context, index) {
-                          return SizedBox(width: 10);
-                        },
-                        itemCount: 10,
-                      ),
-            ),
-            Expanded(
-              child:
-                  isLoading
-                      ? CircularProgressIndicator()
-                      : ListView.separated(
-                        itemBuilder: (context, index) {
-                          return ChatItem(
-                            product: productmodel!.products[index],
-                          );
-                        },
-                        separatorBuilder: (context, index) {
-                          return SizedBox(height: 10);
-                        },
-                        itemCount: users.length,
-                      ),
-            ),
-          ],
-        ),
+          );
+        },
       ),
     );
   }
