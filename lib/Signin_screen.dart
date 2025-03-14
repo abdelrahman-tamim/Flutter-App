@@ -1,15 +1,15 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/Signin_screen.dart';
+import 'package:flutter_application_1/login_screen.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class SigninScreen extends StatefulWidget {
+  const SigninScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<SigninScreen> createState() => _SigninScreen();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _SigninScreen extends State<SigninScreen> {
   bool vis = true;
   TextEditingController emailCotroller = TextEditingController();
   TextEditingController passwordController = TextEditingController();
@@ -19,7 +19,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Login",
+          "Register",
           style: TextStyle(
             fontWeight: FontWeight.bold,
             color: Colors.white,
@@ -38,7 +38,7 @@ class _LoginScreenState extends State<LoginScreen> {
             children: [
               SizedBox(height: 10.0),
               Text(
-                "User Login",
+                "Registration",
                 style: TextStyle(
                   color: Colors.black,
                   fontWeight: FontWeight.bold,
@@ -105,30 +105,28 @@ class _LoginScreenState extends State<LoginScreen> {
                   onPressed: () async {
                     if (formKey.currentState!.validate()) {
                       try {
-                        await FirebaseAuth.instance.signInWithEmailAndPassword(
-                          email: emailCotroller.text,
-                          password: passwordController.text,
-                        );
+                        await FirebaseAuth.instance
+                            .createUserWithEmailAndPassword(
+                              email: emailCotroller.text,
+                              password: passwordController.text,
+                            );
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
-                            content: Text(
-                              "You Are Logged in",
-                              style: TextStyle(color: Colors.white),
-                            ),
+                            content: Text("You Have signed in Succsffuly"),
                             backgroundColor: Colors.green,
                           ),
                         );
                       } catch (e) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
-                            content: Text("Wrong Email or Password"),
+                            content: Text("Somthing is Wrong"),
                             backgroundColor: Colors.red,
                           ),
                         );
                       }
                     }
                   },
-                  child: Text("Log in"),
+                  child: Text("Register"),
                   padding: EdgeInsets.all(20),
                   textColor: Colors.white,
                   color: Colors.blue,
@@ -141,20 +139,19 @@ class _LoginScreenState extends State<LoginScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text("Dont Have an Account?"),
+                  Text("Already Have an Account?"),
                   TextButton(
                     onPressed: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (context) {
-                            return SigninScreen();
+                            return LoginScreen();
                           },
                         ),
                       );
-                      ;
                     },
-                    child: Text("Register Now"),
+                    child: Text("Login Now"),
                   ),
                 ],
               ),
